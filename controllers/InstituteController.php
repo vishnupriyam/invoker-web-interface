@@ -72,6 +72,22 @@ class InstituteController extends Controller
     }
 
     /**
+     * Creates the dropdown list of courses in the institution
+     * @param institute_id
+     * @return dropdown of institute courses
+     */
+
+    public function actionCourses($id){
+
+        $model = $this->findModel($id);
+        $Courses = $model->getCourses()->all();
+        echo '<option value="">Select Courses</option>';
+        foreach($Courses as $course){
+            echo "<option value='".$course->id."'>".$course->name."</option>";
+        }
+    }
+
+    /**
      * Updates an existing Institute model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id

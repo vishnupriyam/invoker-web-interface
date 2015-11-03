@@ -17,6 +17,7 @@ use Yii;
  */
 class BlockTime extends \yii\db\ActiveRecord
 {
+    public $institute;
     /**
      * @inheritdoc
      */
@@ -57,5 +58,9 @@ class BlockTime extends \yii\db\ActiveRecord
     public function getCourse()
     {
         return $this->hasOne(Course::className(), ['id' => 'course_id']);
+    }
+
+    public function getInstitute(){
+        return $this->hasOne(Institute::className(), ['id' => $this->getCourse->institute_id]);
     }
 }
