@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Institute;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -14,7 +15,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'institute_id')->textInput() ?>
+    <?/*= $form->field($model, 'institute_id')->textInput() */?>
+
+    <?= $form->field($model, 'institute_id')->dropdownList(
+        institute::find()->select(['name','id'])->indexBy('id')->column(),
+        ['prompt'=>'Select Institute']
+    ); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -47,6 +47,7 @@ class Course extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'institute_id' => 'Institute ID',
+            'institute.name' => 'Institute',
         ];
     }
 

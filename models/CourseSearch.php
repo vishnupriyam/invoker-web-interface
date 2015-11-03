@@ -12,6 +12,7 @@ use app\models\Course;
  */
 class CourseSearch extends Course
 {
+    public $institute;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class CourseSearch extends Course
     {
         return [
             [['id', 'institute_id'], 'integer'],
-            [['name'], 'safe'],
+            [['name','institute'], 'safe'],
         ];
     }
 
@@ -42,14 +43,18 @@ class CourseSearch extends Course
     public function search($params)
     {
         $query = Course::find();
+        $query->joinWith(['institute']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $dataProvider->sort->attributes['institute'] = [
+            'asc' => ['institute.name' => SORT_ASC],
+            'desc' => ['institute.name' => SORT_DESC],
+        ];
 
-        if (!$this->validate()) {
+        if (!($this->load($params) && $this->validate())) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -58,9 +63,10 @@ class CourseSearch extends Course
         $query->andFilterWhere([
             'id' => $this->id,
             'institute_id' => $this->institute_id,
-        ]);
+            ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'institute.name', $this->institute]);
 
         return $dataProvider;
     }
