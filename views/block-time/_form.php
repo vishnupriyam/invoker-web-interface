@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Institute;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\BlockTime */
@@ -29,11 +30,36 @@ use app\models\Institute;
             'prompt' => 'Select Courses',
         ])?>
 
-    <?= $form->field($model, 'starttime')->textInput() ?>
 
-    <?= $form->field($model, 'endtime')->textInput() ?>
+    <label class="control-label" for="blocktime-starttime">Starttime</label>
+    <?=
+        DateTimePicker::widget([
+            'model' => $model,
+            'attribute' => 'starttime',
+            'name' => 'starttime',
+            'type' => DateTimePicker::TYPE_INPUT,
+            'value' => '2015-11-01 14:00:00',
+            'pluginOptions' => [
+                'autoclose'=>true,
+                'format' => 'yyyy-mm-dd hh:ii:ss'
+            ]
+        ]);
+    ?>
 
-    <?= $form->field($model, 'created_time')->textInput() ?>
+    <label class="control-label" for="blocktime-endtime">Endtime</label>
+    <?=
+        DateTimePicker::widget([
+            'model' => $model,
+            'attribute' => 'endtime',
+            'name' => 'endtime',
+            'type' => DateTimePicker::TYPE_INPUT,
+            'value' => '2015-11-01 14:00:00',
+            'pluginOptions' => [
+                'autoclose'=>true,
+                'format' => 'yyyy-mm-dd hh:ii:ss'
+            ]
+        ]);
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

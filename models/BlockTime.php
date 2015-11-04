@@ -33,7 +33,7 @@ class BlockTime extends \yii\db\ActiveRecord
     {
         return [
             [['starttime', 'endtime', 'course_id'], 'required'],
-            [['starttime', 'endtime', 'created_time'], 'safe'],
+            [['starttime', 'endtime', 'created_time','institute'], 'safe'],
             [['course_id'], 'integer']
         ];
     }
