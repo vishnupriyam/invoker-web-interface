@@ -12,6 +12,7 @@ use app\models\BlockTime;
  */
 class BlockTimeSearch extends BlockTime
 {
+    public $course;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class BlockTimeSearch extends BlockTime
     {
         return [
             [['id', 'course_id'], 'integer'],
-            [['starttime', 'endtime', 'created_time'], 'safe'],
+            [['starttime', 'endtime', 'created_time','course'], 'safe'],
         ];
     }
 
@@ -42,14 +43,18 @@ class BlockTimeSearch extends BlockTime
     public function search($params)
     {
         $query = BlockTime::find();
+        $query->joinWith(['course']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $this->load($params);
+        $dataProvider->sort->attributes['course'] = [
+            'asc' => ['course.name' => SORT_ASC],
+            'desc' => ['course.name' => SORT_DESC],
+        ];
 
-        if (!$this->validate()) {
+        if (!($this->load($params) && $this->validate())) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
@@ -63,6 +68,7 @@ class BlockTimeSearch extends BlockTime
             'course_id' => $this->course_id,
         ]);
 
+        $query->andFilterWhere(['like', 'course.name', $this->course]);
         return $dataProvider;
     }
 }
