@@ -49,6 +49,8 @@ class BlockTime extends \yii\db\ActiveRecord
             'endtime' => 'Endtime',
             'created_time' => 'Created Time',
             'course_id' => 'Course ID',
+            'course.name' => 'Course',
+            'course.institute.name' => 'Institute',
         ];
     }
 
@@ -61,6 +63,13 @@ class BlockTime extends \yii\db\ActiveRecord
     }
 
     public function getInstitute(){
-        return $this->hasOne(Institute::className(), ['id' => $this->getCourse->institute_id]);
+        if($this->course_id != NULL){
+            $institute_id = Course::find()->select(['institute_id'])->where([
+                    'id' => $this->course_id,
+                ])->one()->institute_id;
+
+            $institute = Institute::findOne(['id'=>$institute_id]);
+            return $institute;
+        }
     }
 }

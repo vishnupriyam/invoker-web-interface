@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Institute;
+use app\models\Course;
 use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
@@ -24,11 +25,21 @@ use kartik\datetime\DateTimePicker;
         ]
     ); ?>
 
-    <?= $form->field($model,'course_id')->dropdownList(
+    <? if($model->institute != null){
+    echo $form->field($model,'course_id')->dropdownList(
+        Course::find()->where(['institute_id'=>$model->institute->id])->select(['name','id'])->indexBy('id')->column(),
+        [
+            'prompt' => 'Select Courses',
+        ]);
+    }
+    else{
+        echo $form->field($model,'course_id')->dropdownList(
         [],
         [
             'prompt' => 'Select Courses',
-        ])?>
+        ]);
+    }
+    ?>
 
 
     <label class="control-label" for="blocktime-starttime">Starttime</label>

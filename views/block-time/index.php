@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'starttime',
             'endtime',
-            'created_time',
-            'course_id',
-
+            'course.name',
+            'course.institute.name',
+            
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

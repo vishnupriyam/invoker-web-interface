@@ -113,6 +113,7 @@ class BlockTimeController extends Controller
     protected function findModel($id)
     {
         if (($model = BlockTime::findOne($id)) !== null) {
+            $model->institute = $model->getInstitute();
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
