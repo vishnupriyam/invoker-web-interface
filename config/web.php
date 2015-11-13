@@ -14,6 +14,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'gcm' => [
+            'class' => 'bryglen\apnsgcm\Gcm',
+            'apiKey' => 'AIzaSyBHX_LHNbjrVO1Ndn91jM0Z0IFxOFONnwU',
+        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
