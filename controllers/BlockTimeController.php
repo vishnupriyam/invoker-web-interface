@@ -8,6 +8,10 @@ use app\models\BlockTimeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Coreproc\Gcm\GcmClient;
+use Coreproc\Gcm\Classes\Message;
+use app\models\UserHasCourse;
+use app\models\InvokerUser;
 
 /**
  * BlockTimeController implements the CRUD actions for BlockTime model.
@@ -63,6 +67,55 @@ class BlockTimeController extends Controller
         $model = new BlockTime();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            //each time a block Time is created , it fetches all the registration tokens of all the users with the course and sends them a push notification
+
+            $UsersHasCourse = UserHasCourse::findAll(["course_id" => $model->course_id]);
+            foreach ($UsersHasCourse as $user_one) {
+                $User = InvokerUser::findOne(['id' => $user_one['user_id']]);
+                $gcmClient = new GcmClient('AIzaSyC9s--GZZIqeHPJEzo3si4-FVrprPMXITI');
+                $message = new Message($gcmClient);
+                $message->addRegistrationId($User->reg_token);
+                $message->setData([
+                    'title' => 'New Block Time',
+                    'message' => [
+                        'starttime' => $model->starttime,
+                        'endtime' => $model->endtime
+                    ],
+                ]);
+                try {
+
+                    $response = $message->send();
+                    // The send() method returns a Response object
+                    print_r($response);
+                    //exit(1);
+                } catch (Exception $exception) {
+                    echo 'uh-oh: ' . $exception->getMessage();
+                    //exit(1);
+                }
+            }
+            
+            /*
+            $gcmClient = new GcmClient('AIzaSyDFx-7O1Zo54ACfc8IbzuTMN4ldigpBWZg');
+            $message = new Message($gcmClient);
+            $message->addRegistrationId('c3-9JrUtYXU:APA91bHnqS9yPF3fOIAblcqSf9weYUe02NT9o20OP8cDts3B7qwysxqg5YSL0lvxMvvn6sb6xSCo1t2cCxqWMjCGc3EiCsPhhn4wvUExU2ri8OZekXVY-lSssLvFLFvsJHHifMifigJz');
+            $message->setData([
+                'title' => 'Sample Push Notification',
+                'message' => $model,
+            ]);
+            try {
+
+                $response = $message->send();
+                // The send() method returns a Response object
+                print_r($response);
+                //exit(1);
+            } catch (Exception $exception) {
+                echo 'uh-oh: ' . $exception->getMessage();
+                exit(1);
+            }
+            */
+
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
