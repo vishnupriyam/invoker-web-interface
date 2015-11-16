@@ -9,6 +9,7 @@ AUTHORS
 -------
 
 [Surya Harsha  Nunnaguppala](https://github.com/suryaharshan1)
+
 [Vishnu Priya Matha](https://github.com/vishnupriyam)
 
 INSTALLATION
