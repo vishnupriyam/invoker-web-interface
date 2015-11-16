@@ -8,6 +8,8 @@ use app\models\InstituteSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * InstituteController implements the CRUD actions for Institute model.
@@ -21,6 +23,17 @@ class InstituteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index','view','create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];

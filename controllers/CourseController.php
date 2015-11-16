@@ -8,6 +8,8 @@ use app\models\CourseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * CourseController implements the CRUD actions for Course model.
@@ -21,6 +23,17 @@ class CourseController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index','view','create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];

@@ -3,15 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\BlockTime;
-use app\models\BlockTimeSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use Coreproc\Gcm\GcmClient;
-use Coreproc\Gcm\Classes\Message;
+
 use app\models\UserHasCourse;
 use app\models\InvokerUser;
+use app\models\BlockTime;
+use app\models\BlockTimeSearch;
+
+use Coreproc\Gcm\GcmClient;
+use Coreproc\Gcm\Classes\Message;
 
 /**
  * BlockTimeController implements the CRUD actions for BlockTime model.
@@ -25,6 +28,17 @@ class BlockTimeController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','view','create','update','delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index','view','create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -94,27 +108,6 @@ class BlockTimeController extends Controller
                     //exit(1);
                 }
             }
-            
-            /*
-            $gcmClient = new GcmClient('AIzaSyDFx-7O1Zo54ACfc8IbzuTMN4ldigpBWZg');
-            $message = new Message($gcmClient);
-            $message->addRegistrationId('c3-9JrUtYXU:APA91bHnqS9yPF3fOIAblcqSf9weYUe02NT9o20OP8cDts3B7qwysxqg5YSL0lvxMvvn6sb6xSCo1t2cCxqWMjCGc3EiCsPhhn4wvUExU2ri8OZekXVY-lSssLvFLFvsJHHifMifigJz');
-            $message->setData([
-                'title' => 'Sample Push Notification',
-                'message' => $model,
-            ]);
-            try {
-
-                $response = $message->send();
-                // The send() method returns a Response object
-                print_r($response);
-                //exit(1);
-            } catch (Exception $exception) {
-                echo 'uh-oh: ' . $exception->getMessage();
-                exit(1);
-            }
-            */
-
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
