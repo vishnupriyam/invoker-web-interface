@@ -43,7 +43,7 @@ return [
 
 ### Google Cloud messaging
 
-For push notifications using google cloud messaging, add your api key in 'controllers/BlockTimeController.php'
+For push notifications using google cloud messaging, add your api key in 'controllers/BlockTimeController.php' (which can be obtained [here](https://console.developers.google.com/apis/))
 
 ``` php
 
