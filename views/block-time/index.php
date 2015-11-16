@@ -37,7 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'course.institute.name',
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+                'template' => '{view}'],
         ],
     ]); ?>
 

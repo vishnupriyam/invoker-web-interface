@@ -87,7 +87,7 @@ class BlockTimeController extends Controller
             $UsersHasCourse = UserHasCourse::findAll(["course_id" => $model->course_id]);
             foreach ($UsersHasCourse as $user_one) {
                 $User = InvokerUser::findOne(['id' => $user_one['user_id']]);
-                $gcmClient = new GcmClient('AIzaSyC9s--GZZIqeHPJEzo3si4-FVrprPMXITI');
+                $gcmClient = new GcmClient('YOUR_API_KEY');
                 $message = new Message($gcmClient);
                 $message->addRegistrationId($User->reg_token);
                 $message->setData([
