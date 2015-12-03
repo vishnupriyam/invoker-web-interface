@@ -36,6 +36,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
+            ['label' => 'User', 'url' => ['/invoker-user/index'],'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Institute', 'url' => ['/institute/index'],'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Courses', 'url' => ['/course/index'],'visible' => !Yii::$app->user->isGuest],
             ['label' => 'Block Times', 'url' => ['/block-time/index'],'visible' => !Yii::$app->user->isGuest],
