@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'mobile_id',
             'phone_number',
             'access_time',
-            'reg_token',
         ],
     ]); ?>
 
