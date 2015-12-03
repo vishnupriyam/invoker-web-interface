@@ -24,6 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'mobile_id',
             'phone_number',
             'access_time',
+            [
+                'label' => 'Courses',
+                'value' => function($model) {
+                    return join(', ', yii\helpers\ArrayHelper::map($model->courses, 'id', 'name'));
+                },
+            ],
         ],
     ]); ?>
 
